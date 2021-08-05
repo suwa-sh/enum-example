@@ -5,11 +5,11 @@ class Argument {
 
     Argument(final String argDef) {
         // "'arg1'", " 'arg2'"
-        var value = argDef.trim();
-        if (isEnclosedInCommas(value))
-            value = value.substring(1, value.length() - 1);
+        var tmp = argDef.trim();
+        if (isEnclosedInCommas(tmp))
+            tmp = tmp.substring(1, tmp.length() - 1);
         // "arg1", "arg2"
-        this.value = value;
+        this.value = tmp;
     }
 
     private boolean isEnclosedInCommas(String value) {

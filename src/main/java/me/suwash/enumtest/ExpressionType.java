@@ -11,18 +11,22 @@ enum ExpressionType {
     }
 
     static ExpressionType parse(final String exprDef) {
-        // replace('arg1', 'arg2')
+        // "replace('arg1', 'arg2')"
         var action = exprDef;
         if (hasParen(exprDef)) action = exprDef.substring(0, exprDef.indexOf("("));
-        // replace
-        return ExpressionType.valueOf(action);
+        // "replace"
+        var expressionType = ExpressionType.valueOf(action);
+
+        // init
+        expressionType.init(exprDef);
+        return expressionType;
     }
 
     private static boolean hasParen(final String expressionDef) {
         return expressionDef.contains("(");
     }
 
-    void init(final String exprDef) {
+    private void init(final String exprDef) {
         var argsDef = "";
         if (hasParen(exprDef)) argsDef = exprDef.substring(exprDef.indexOf("("));
         this.expression.init(argsDef);

@@ -5,11 +5,11 @@ import java.util.List;
 
 public class Arguments {
     private final String def;
-    private final List<Argument> arguments;
+    private final List<Argument> argumentList;
 
     Arguments(final String argsDef) {
         this.def = argsDef;
-        this.arguments = new ArrayList<Argument>();
+        this.argumentList = new ArrayList<>();
         if (argsDef == null || "".equals(argsDef)) return;
 
         // ('arg1', 'arg2')
@@ -19,7 +19,7 @@ public class Arguments {
 
         // 'arg1', 'arg2'
         for (var element : replaced.split(",")) {
-            this.arguments.add(new Argument(element));
+            this.argumentList.add(new Argument(element));
         }
     }
 
@@ -28,11 +28,11 @@ public class Arguments {
     }
 
     int size() {
-        return this.arguments.size();
+        return this.argumentList.size();
     }
 
     Argument get(final int index) {
-        return this.arguments.get(index);
+        return this.argumentList.get(index);
     }
 
     public void assertLength(final int length) {
