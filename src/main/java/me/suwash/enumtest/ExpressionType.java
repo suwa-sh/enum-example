@@ -12,7 +12,7 @@ enum ExpressionType {
 
     static ExpressionType parse(final String exprDef) {
         // "replace('arg1', 'arg2')"
-        var name = substringBeforeParen(exprDef);
+        var name = typeName(exprDef);
         // "replace"
         var type = ExpressionType.valueOf(name);
 
@@ -20,9 +20,9 @@ enum ExpressionType {
         return type;
     }
 
-    private static String substringBeforeParen(final String value) {
-        var tmp = value;
-        if (hasParen(tmp)) tmp = tmp.substring(0, tmp.indexOf("("));
+    private static String typeName(final String exprDef) {
+        var tmp = exprDef;
+        if (hasParen(tmp)) tmp = substringBeforeParen(tmp);
         return tmp.trim();
     }
 
@@ -30,14 +30,17 @@ enum ExpressionType {
         return value.contains("(");
     }
 
+    private static String substringBeforeParen(final String value) {
+        return value.substring(0, value.indexOf("("));
+    }
+
     private void init(final String exprDef) {
-        var argsDef = substringEnclosedInParen(exprDef);
+        var argsDef = argsDef(exprDef);
         this.expression.init(argsDef);
     }
 
-    private String substringEnclosedInParen(final String value) {
-        if (hasParen(value)) return value.substring(value.indexOf("("));
-        return "";
+    private String argsDef(final String exprDef) {
+        return exprDef.replace(typeName(exprDef), "");
     }
 
     String evaluate(final String value) {
