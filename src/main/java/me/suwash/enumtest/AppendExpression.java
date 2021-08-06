@@ -6,9 +6,8 @@ class AppendExpression implements Expression {
 
     @Override
     public void init(final String argsDef) {
-        var arguments = new Arguments(argsDef);
-        arguments.assertLength(1);
-        this.suffix = arguments.get(0);
+        var args = new Arguments(argsDef, 1);
+        this.suffix = args.get(0);
     }
 
     @Override

@@ -12,24 +12,32 @@ enum ExpressionType {
 
     static ExpressionType parse(final String exprDef) {
         // "replace('arg1', 'arg2')"
-        var action = exprDef;
-        if (hasParen(exprDef)) action = exprDef.substring(0, exprDef.indexOf("("));
+        var name = substringBeforeParen(exprDef);
         // "replace"
-        var expressionType = ExpressionType.valueOf(action);
+        var type = ExpressionType.valueOf(name);
 
-        // init
-        expressionType.init(exprDef);
-        return expressionType;
+        type.init(exprDef);
+        return type;
     }
 
-    private static boolean hasParen(final String expressionDef) {
-        return expressionDef.contains("(");
+    private static String substringBeforeParen(final String value) {
+        var tmp = value;
+        if (hasParen(tmp)) tmp = tmp.substring(0, tmp.indexOf("("));
+        return tmp.trim();
+    }
+
+    private static boolean hasParen(final String value) {
+        return value.contains("(");
     }
 
     private void init(final String exprDef) {
-        var argsDef = "";
-        if (hasParen(exprDef)) argsDef = exprDef.substring(exprDef.indexOf("("));
+        var argsDef = substringEnclosedInParen(exprDef);
         this.expression.init(argsDef);
+    }
+
+    private String substringEnclosedInParen(final String value) {
+        if (hasParen(value)) return value.substring(value.indexOf("("));
+        return "";
     }
 
     String evaluate(final String value) {

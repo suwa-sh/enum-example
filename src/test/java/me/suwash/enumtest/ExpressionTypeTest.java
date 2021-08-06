@@ -14,19 +14,29 @@ class ExpressionTypeTest {
         var exprDef = "append('suffix')";
 
         var expressionType = ExpressionType.parse(exprDef);
-        var actual = expressionType.evaluate("後ろにサフィックスが追加されます。");
+        var actual = expressionType.evaluate("サフィックスを追加します。");
 
-        assertEquals("後ろにサフィックスが追加されます。suffix", actual);
+        assertEquals("サフィックスを追加します。suffix", actual);
     }
 
     @Test
     void test_replace() {
-        var exprDef = "replace('arg1', 'arg2')";
+        var exprDef = "replace('arg1','arg2')";
 
         var expressionType = ExpressionType.parse(exprDef);
-        var actual = expressionType.evaluate("arg1 を arg2 に置換します");
+        var actual = expressionType.evaluate("arg1 を arg2 に置換します。");
 
-        assertEquals("arg2 を arg2 に置換します", actual);
+        assertEquals("arg2 を arg2 に置換します。", actual);
+    }
+
+    @Test
+    void test_定義に不要なスペースが含まれる場合() {
+        var exprDef = " replace ( 'arg1' , 'arg2' ) ";
+
+        var expressionType = ExpressionType.parse(exprDef);
+        var actual = expressionType.evaluate("定義をトリムして、arg1をarg2に置換します。");
+
+        assertEquals("定義をトリムして、arg2をarg2に置換します。", actual);
     }
 
     @ParameterizedTest

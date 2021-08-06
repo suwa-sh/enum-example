@@ -3,40 +3,42 @@ package me.suwash.enumtest;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Arguments {
+class Arguments {
     private final String def;
-    private final List<Argument> argumentList;
+    private final List<Argument> argList;
 
-    Arguments(final String argsDef) {
+    Arguments(final String argsDef, final int length) {
         this.def = argsDef;
-        this.argumentList = new ArrayList<>();
-        if (argsDef == null || "".equals(argsDef)) return;
+        this.argList = new ArrayList<>();
 
-        // ('arg1', 'arg2')
-        if (!isEnclosedInParen(argsDef))
-            throw new IllegalArgumentException(String.format("()で括られていません。 def=%s", argsDef));
-        var replaced = argsDef.substring(1, argsDef.length() - 1);
-
-        // 'arg1', 'arg2'
-        for (var element : replaced.split(",")) {
-            this.argumentList.add(new Argument(element));
+        // "('arg1', 'arg2')"
+        var removed = removeParen(argsDef);
+        // "'arg1', 'arg2'"
+        for (var elem : removed.split(",")) {
+            // "'arg1'", " 'arg2'"
+            this.argList.add(new Argument(elem));
         }
+
+        assertLength(length);
     }
 
-    private boolean isEnclosedInParen(final String argsDef) {
-        return argsDef.startsWith("(") && argsDef.endsWith(")");
+    private String removeParen(String value) {
+        var tmp = value.trim();
+        if (!isEnclosedInParen(tmp))
+            throw new IllegalArgumentException(String.format("()で括られていません。 定義=%s", this.def));
+        return tmp.substring(1, tmp.length() - 1);
     }
 
-    int size() {
-        return this.argumentList.size();
+    private boolean isEnclosedInParen(final String value) {
+        return value.startsWith("(") && value.endsWith(")");
+    }
+
+    private void assertLength(final int length) {
+        if (this.argList.size() != length)
+            throw new IllegalArgumentException(String.format("引数の数が想定外です。引数の数=%d, 定義=%s", length, this.def));
     }
 
     Argument get(final int index) {
-        return this.argumentList.get(index);
-    }
-
-    public void assertLength(final int length) {
-        if (size() != length)
-            throw new IllegalArgumentException(String.format("引数が%dつではありません。def=%s", length, this.def));
+        return this.argList.get(index);
     }
 }

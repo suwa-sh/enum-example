@@ -7,8 +7,7 @@ class ReplaceExpression implements Expression {
 
     @Override
     public void init(final String argsDef) {
-        var arguments = new Arguments(argsDef);
-        arguments.assertLength(2);
+        var arguments = new Arguments(argsDef, 2);
         this.from = arguments.get(0);
         this.to = arguments.get(1);
     }
