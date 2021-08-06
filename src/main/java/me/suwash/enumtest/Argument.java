@@ -4,10 +4,10 @@ class Argument {
     private final String value;
 
     Argument(final String argDef) {
-        // "'arg1'", " 'arg2'"
+        // "'arg1'" | " 'arg2'"
         var tmp = argDef.trim();
         if (isEnclosedInQuotes(tmp)) tmp = removeQuotes(tmp);
-        // "arg1", "arg2"
+        // "arg1" | "arg2"
         this.value = tmp;
     }
 

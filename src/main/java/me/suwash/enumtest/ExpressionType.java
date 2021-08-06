@@ -35,7 +35,9 @@ enum ExpressionType {
     }
 
     private void init(final String exprDef) {
+        // "replace('arg1', 'arg2')"
         var argsDef = argsDef(exprDef);
+        // "('arg1', 'arg2')"
         this.expression.init(argsDef);
     }
 
